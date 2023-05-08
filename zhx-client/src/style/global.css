@@ -1,0 +1,139 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+  color: #333;
+}
+
+a {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+}
+
+ul,
+li {
+  list-style: none;
+}
+
+h1,
+h2,
+h4,
+h5 {
+  font-weight: normal;
+}
+
+html {
+  font-size: 24.155vw;
+}
+
+html::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  font-size: 0.16rem;
+  padding-bottom: 0.57rem;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica,
+    Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+section::-webkit-scrollbar {
+  display: none;
+}
+
+.van-field__control {
+  box-sizing: border-box !important;
+  padding-left: 0.1rem !important;
+}
+
+.van-toast {
+  background-color: rgba(247, 130, 169, .5) !important;
+}
+
+.changeBotton {
+  border-bottom: 0.01rem solid #f88eb1 !important;
+}
+
+.van-dialog__confirm,
+.van-dialog__confirm:active {
+  color: #F790A1 !important;
+}
+
+.fade-enter {
+  opacity: 0;
+  transform: translateX(100%);
+}
+
+.fade-enter-to {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.fade-enter-active {
+  transition: 0.5s;
+}
+
+.van-address-list__bottom {
+  position: absolute !important;
+}
+
+.van-button--danger {
+  background-color: #F790A1 !important;
+  border-color: #F790A1 !important;
+}
+
+.van-cell {
+  margin-bottom: 0.1rem;
+}
+
+.van-field__error-message {
+  color: #F790A1 !important;
+}
+
+.van-button--large {
+  height: 0.42rem !important;
+}
+
+.van-button--info {
+  border-color: #F790A1 !important;
+  background-color: #F790A1 !important;
+
+}
+
+input:disabled {
+  background-color: transparent;
+}
+
+.search-input {
+  width: 100%;
+  height: 0.35rem;
+  border: none;
+  outline: none;
+  border-radius: 0.15rem;
+  box-sizing: border-box;
+  padding: 0 0.15rem;
+  border: 0.01rem solid #ececec;
+}
+
+.search-input::-webkit-input-placeholder {
+  font-size: 0.12rem;
+  color: rgb(189, 189, 189);
+}
+
+.van-info {
+  background-color: #f88eb1 !important;
+}
