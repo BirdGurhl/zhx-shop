@@ -46,7 +46,7 @@
     <el-dialog :title="type" :visible.sync="dialogFormVisible">
       <el-form :model="noticeForm" :rules="rules" ref="noticeForm">
         <el-form-item label="公告内容" prop="detail">
-          <el-input v-model="noticeForm.detail"></el-input>
+          <el-input v-model="noticeForm.detail" maxlength="85" show-word-limit></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

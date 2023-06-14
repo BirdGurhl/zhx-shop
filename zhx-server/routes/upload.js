@@ -4,6 +4,7 @@ var router = express.Router();
 let fs = require('fs')
 let path = require("path");
 const multer = require('multer');
+let localhost = 'localhost'
 
 // 设置存储文件的路径和文件名
 const storage = multer.diskStorage({
@@ -27,7 +28,7 @@ router.post("/", upload.any(), (req, res, next) => {
     msg: "上传成功",
     imgInfo: {
       name: req.files[0].filename,
-      url: "http://localhost:3000" + "/public/upload/" + req.files[0].filename,
+      url: "http://"+ localhost +":3000" + "/public/upload/" + req.files[0].filename,
       uid: req.files[0].filename,
       status: 'success',
     },

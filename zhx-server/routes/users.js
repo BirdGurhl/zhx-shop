@@ -14,9 +14,8 @@ function getRandom() {
 
 function getData(n) {
   n = new Date(n)
-  return n.toLocaleDateString().replace(/\//g, "-") + " " + n.toTimeString().substr(0, 8)
+  return n.toISOString().replace(/T/,' ').slice(0,-5)
 }
-
 // 注册
 router.post('/register', function (req, res, next) {
   // res.json({
@@ -34,7 +33,6 @@ router.post('/register', function (req, res, next) {
   let role = req.body.role
   // 初始化用户创建时间
   let createTime = getData(new Date())
-  console.log(createTime)
 
   let userInfo = {
     userPhone,
@@ -306,7 +304,6 @@ router.post('/getOrderdetailFromId', (req, res, next) => {
     }
   )
 })
-console.log(getData(new Date()));
 //更新订单详情
 router.post('/changeOrderItem', (req, res, next) => {
   const orderId = req.body.orderId || req.body.order_id

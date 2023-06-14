@@ -168,7 +168,7 @@ module.exports = {
   // 查询所有商品
   allGoods(success, fail) {
     const connection = DBconn.getConn()
-    const sql = 'select * from goods g,category c where g.cate_id = c.cate_id ORDER BY update_time DESC'
+    const sql = 'select * from goods g,category c where g.cate_id = c.cate_id ORDER BY CAST(update_time AS DATETIME) DESC'
     connection.query(sql, (err, res) => {
       if (!err) {
         success({
@@ -237,7 +237,7 @@ module.exports = {
   groupAll(success, fail) {
     const connection = DBconn.getConn()
 
-    const sql = `select * from category ORDER BY type_create_time ASC`
+    const sql = `select * from category ORDER BY CAST(type_create_time AS DATETIME) ASC`
 
     connection.query(sql, (err, res) => {
       if (!err) {
@@ -290,7 +290,7 @@ module.exports = {
 
   goodsFromUserId(id, success, fail) {
     const connection = DBconn.getConn()
-    const sql = `select * from goods where user_id = ${id} ORDER BY update_time DESC`
+    const sql = `select * from goods where user_id = ${id} ORDER BY CAST(update_time AS DATETIME) DESC`
     console.log(sql);
     connection.query(sql, (err, res) => {
       if (!err) {
@@ -404,7 +404,7 @@ module.exports = {
     if (data.userId) {
       sql = sql +` AND (user_id IS NULL OR user_id <> ${data.userId})`
     }
-    sql = sql + ` ORDER BY update_time DESC`
+    sql = sql + ` ORDER BY CAST(update_time AS DATETIME) DESC`
     console.log(sql);
     connection.query(sql, (err, res) => {
       
@@ -650,7 +650,7 @@ module.exports = {
     // 查看所有公告
   getAllNotice(success, fail) {
     const connection = DBconn.getConn()
-    const sql = `select n.notice_id, n.notice_detail,n.admin_id,a.admin_name,a.admin_role,n.create_time,n.update_time from notice_sys n , admin a where n.admin_id = a.admin_id ORDER BY update_time DESC LIMIT 5`
+    const sql = `select n.notice_id, n.notice_detail,n.admin_id,a.admin_name,a.admin_role,n.create_time,n.update_time from notice_sys n , admin a where n.admin_id = a.admin_id ORDER BY CAST(n.update_time AS DATETIME) DESC LIMIT 5`
     console.log(sql);
     connection.query(sql, (err, res) => {
       console.log(res);

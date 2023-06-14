@@ -7,14 +7,14 @@
           :offset-top="stickyTop - 0.01 + 'rem'">
           <van-tab :title="isMe ? '我的交易' : 'Ta的交易'">
             <div class="water-product">
-              <waterfall v-if="goodsList.length > 0" :col="2" :data="goodsList">
+              <waterfall v-if="goodsList.length > 0" :col="2" :data="goodsList" :lazy-distance="400" :load-distance="400">
                 <div class="product-list" v-for="its in goodsList" @click="moveDetail(its.goods_id, its.on_sale)"
                   :key="its.goods_id">
                   <div :class="{ 'complete-product': its.on_sale != 1 }">
                     <div class="user-contrainer">
                       <user :userId="userId" :disclickAble="true"></user>
                     </div>
-                    <img style="width: 100%;max-height: 50vw;" :src="its.main_image[0].url" />
+                    <img style="width: 100%;max-height: 50vw;" :lazy-src="its.main_image[0].url" />
                     <div class="infoClass">
                       <h2 v-text="its.name"></h2>
                       <p>

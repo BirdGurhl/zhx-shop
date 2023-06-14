@@ -5,9 +5,9 @@ const md5 = require('md5')
 
 function getData(n) {
   n = new Date(n)
-  return n.toLocaleDateString().replace(/\//g, "-") + " " + n.toTimeString().substr(0, 8)
+  return n.toISOString().replace(/T/,' ').slice(0,-5)
 }
-
+console.log(getData(new Date()));
 // 获取用户信息
 router.get('/getUsersInfo', (req, res, next) => {
   adminDb.getUsersInfo(
@@ -61,7 +61,6 @@ router.post('/adminLogin', (req, res, next) => {
     }
   )
 })
-
 // 新增公告
 router.post('/addNotice', (req, res, next) => {
   const detail = req.body.detail

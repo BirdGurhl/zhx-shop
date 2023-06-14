@@ -12,7 +12,7 @@
         <li v-for="goods in dataList" :key="goods.collId" @click="toDetail(goods.goodsId)">
           <div>
             <div class="user">
-              <user :userId="10006"></user>
+              <user :userId="goods.userId"></user>
             </div>
             <section>
               <div class="image">
@@ -73,7 +73,8 @@ export default {
                 name: item.name,
                 price: item.price,
                 onSale: item.on_sale,
-                goodsId: item.goods_id
+                goodsId: item.goods_id,
+                userId: item.user_id
               }
             })
           }

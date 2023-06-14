@@ -8,7 +8,17 @@
 ```
 ### 项目运行环境
 ```
-​ Node.js + MySQL + 
+​ Node.js + MySQL
+ SQL脚本文件： zhx-serve/MySQL/db.sql
+ 数据库配置文件：zhx-server/dao/DBconn.js , 默认配置： 
+ const dbConfig = {
+  host: "localhost",
+  user: "root",
+  password: "123456",
+  database: "db",
+};
+
+ 后台超级管理员账号：admin 密码：123456
 ```
 
 ## 安装依赖

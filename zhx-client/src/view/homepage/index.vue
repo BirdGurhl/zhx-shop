@@ -12,7 +12,7 @@
       <van-notice-bar class="top-nav" left-icon="volume-o" color="#fff" background="#fc9bbb" :scrollable="false"
         mode="closeable">
         <van-swipe vertical class="notice-swipe" :autoplay="3000" :show-indicators="false">
-          <van-swipe-item v-for="(notice, index) in noticeData" :key="notice.goods_id">{{
+          <van-swipe-item v-for="(notice, index) in noticeData" :key="notice.goods_id" @click="showNotice(notice)">{{
             notice.content
           }}</van-swipe-item>
         </van-swipe>
@@ -32,7 +32,7 @@
       <!-- 分类栏 -->
       <div class="typeBox">
         <van-grid :gutter="10">
-          <van-grid-item v-for="(item, index) in topNavType.slice(0,8)" :key="item.typeId"
+          <van-grid-item v-for="(item, index) in topNavType.slice(0, 8)" :key="item.typeId"
             :icon="require(`@/assets/typeIcon/${item.name}.png`)" :text=item.name
             @click="toCategory(item.typeId, index)" />
         </van-grid>
@@ -44,22 +44,24 @@
         <!-- <van-loading v-show="dataLoading" color="#fc9bbb" size="30"
           style="position: absolute; left: 50%; top: 2rem; transform: translate(-50%); z-index: 999;" /> -->
         <van-tabs v-model="activetype" @change="changeType" sticky animated swipeable>
-          <van-tab v-for="item in topNavType.slice(0,8)" :title="item.name" :key="item.typeId" :name="item.typeId">
+          <van-tab v-for="item in topNavType.slice(0, 8)" :title="item.name" :key="item.typeId" :name="item.typeId">
             <div class="water-product">
-              <waterfall v-if="data.length > 0" :col="col" :data="data">
-                <div class="product-list" v-for="its in data" @click="moveDetail(its.goodsId)" :key="its.goodsId">
-                  <div class="user-contrainer">
-                    <user :userId="its.userId"></user>
+              <waterfall v-if="data.length > 0" :col="col" :data="data" :lazy-distance="400" :load-distance="400">
+                <template>
+                  <div class="product-list" v-for="its in data" @click="moveDetail(its.goodsId)" :key="its.goodsId">
+                    <div class="user-contrainer">
+                      <user :userId="its.userId"></user>
+                    </div>
+                    <img style="width: 100%;max-height: 50vw;" :lazy-src="its.imgs[0].url" />
+                    <div class="infoClass">
+                      <h2 v-text="its.name"></h2>
+                      <p>
+                        <i class="iconfont icon-renmingbiriyuan"></i>
+                        <span>{{ its.price }}</span>
+                      </p>
+                    </div>
                   </div>
-                  <img style="width: 100%;max-height: 50vw;" :src="its.imgs[0].url" />
-                  <div class="infoClass">
-                    <h2 v-text="its.name"></h2>
-                    <p>
-                      <i class="iconfont icon-renmingbiriyuan"></i>
-                      <span>{{ its.price }}</span>
-                    </p>
-                  </div>
-                </div>
+                </template>
               </waterfall>
               <van-empty v-else description="空空如也" />
             </div>
@@ -71,7 +73,7 @@
 </template>
 
 <script>
-import { Toast } from 'vant'
+import { Toast, Dialog } from 'vant'
 import service from '@/api/goods.js'
 import user from '../../components/user.vue'
 export default {
@@ -88,26 +90,36 @@ export default {
       activetype: '',
       topNavType: [],
       dataLoading: false,
-      noticeData:[]
+      noticeData: []
     }
   },
   computed: {},
   methods: {
+    showNotice(notice) {
+      console.log(notice);
+      Dialog.alert({
+        title: notice.updateTime,
+        message: notice.content,
+      }).then(() => {
+        // on close
+      });
+
+    },
     toSearch() {
       this.$router.push({ path: '/search' })
     },
     onRefresh() {
       // setTimeout(() => {
-        this.getGoodsFromType().then((res) => {
-          if (res.status === 'OK') {
-            Toast('刷新成功')
-            this.isLoading = false
-          }
+      this.getGoodsFromType().then((res) => {
+        if (res.status === 'OK') {
+          Toast('刷新成功')
+          this.isLoading = false
+        }
+      })
+        .catch(err => {
+          Toast('失败')
+          this.isLoading = false
         })
-          .catch(err => {
-            Toast('失败')
-            this.isLoading = false
-          })
       // }, 0)
     },
     formatGoodsType(data) {
@@ -131,27 +143,27 @@ export default {
         this.data = [] //清空data列表 否则会导致数据显示不出来的bug
         this.dataLoading = true
         // setTimeout(() => {
-          service
-            ._getGoodsFromType(this.activetype, this.$store.state.userInfo.userId)
-            .then((res) => {
-              this.data = res.data
-                // .filter((its) => its.on_sale === '1')   // 过滤不在售的
-                .map((item) => {
-                  return {
-                    name: item.name,
-                    detail: item.detail,
-                    goodsId: item.goods_id,
-                    imgs: JSON.parse(item.main_image),
-                    price: item.price,
-                    userId: item.user_id
-                  }
-                })
-              resolve({ status: 'OK' })
-              this.dataLoading = false
-            })
-            .catch((e) => {
-              reject({ status: 'Err', e })
-            })
+        service
+          ._getGoodsFromType(this.activetype, this.$store.state.userInfo.userId)
+          .then((res) => {
+            this.data = res.data
+              // .filter((its) => its.on_sale === '1')   // 过滤不在售的
+              .map((item) => {
+                return {
+                  name: item.name,
+                  detail: item.detail,
+                  goodsId: item.goods_id,
+                  imgs: JSON.parse(item.main_image),
+                  price: item.price,
+                  userId: item.user_id
+                }
+              })
+            resolve({ status: 'OK' })
+            this.dataLoading = false
+          })
+          .catch((e) => {
+            reject({ status: 'Err', e })
+          })
         // }, 0)
       })
     },
@@ -169,7 +181,6 @@ export default {
     },
     getNotice() {
       service._getAllNotice().then(res => {
-        console.log(res);
         this.noticeData = res.data.map(item => {
           return {
             noticeId: item.notice_id,

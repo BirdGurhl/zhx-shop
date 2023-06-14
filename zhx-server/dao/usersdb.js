@@ -559,7 +559,7 @@ module.exports = {
 
     let isAllSQL = orderInfo.orderStatus == undefined ? '' : `i.order_status = '${orderInfo.orderStatus}' and`
 
-    const sql = `select * from order_info i  where ${isAllSQL} i.user_id = '${orderInfo.userId}' ORDER BY create_time DESC`
+    const sql = `select * from order_info i  where ${isAllSQL} i.user_id = '${orderInfo.userId}' ORDER BY CAST(create_time AS DATETIME) DESC`
 
 
     connection.query(sql, (err, res) => {
@@ -660,13 +660,13 @@ module.exports = {
     let sql = ''
     // 如果没有userId字段，返回所有指定状态的订单
     if (!orderInfo.userId && orderInfo.orderStatus) {
-      sql = `SELECT * FROM order_item WHERE order_status=${orderInfo.orderStatus} ORDER BY update_time DESC`
+      sql = `SELECT * FROM order_item WHERE order_status=${orderInfo.orderStatus} ORDER BY CAST(update_time AS DATETIME) DESC`
     }
     else if (orderInfo.onlyUser) {
-      sql = `SELECT * FROM order_item WHERE user_id=${orderInfo.userId} ${isAllSQL} ORDER BY create_time DESC`
+      sql = `SELECT * FROM order_item WHERE user_id=${orderInfo.userId} ${isAllSQL} ORDER BY CAST(create_time AS DATETIME) DESC`
     }
     else {
-      sql = `SELECT * FROM order_item WHERE (boss_id=${orderInfo.userId} OR user_id=${orderInfo.userId}) ${isAllSQL} ORDER BY create_time DESC`
+      sql = `SELECT * FROM order_item WHERE (boss_id=${orderInfo.userId} OR user_id=${orderInfo.userId}) ${isAllSQL} ORDER BY CAST(create_time AS DATETIME) DESC`
     }
     console.log(Boolean(orderInfo.onlyUser));
     console.log(sql);
@@ -693,7 +693,7 @@ module.exports = {
     const connection = DBconn.getConn()
     let isAllSQL = orderInfo.orderStatus == undefined ? '' : `AND order_status=${orderInfo.orderStatus}`
 
-    const sql = `SELECT * FROM order_item WHERE boss_id=${orderInfo.userId} ${isAllSQL} ORDER BY create_time DESC`
+    const sql = `SELECT * FROM order_item WHERE boss_id=${orderInfo.userId} ${isAllSQL} ORDER BY CAST(create_time AS DATETIME) DESC`
     connection.query(sql, (err, res) => {
       if (!err) {
         success({

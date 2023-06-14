@@ -90,11 +90,13 @@ module.exports = {
 
     connection.query(sql, (err, res) => {
       if (!err) {
+        console.log(res);
         success({
           status: 200,
           msg: '新增成功',
         })
       } else {
+        console.log(err);
         fail({
           status: 500,
           err,
@@ -167,7 +169,7 @@ module.exports = {
   // 查询所有订单
   getAllOrder(success, fail) {
     const connection = DBconn.getConn()
-    const sql = `select o.order_id, o.user_id,o.address_id,o.payment,o.payment_type,o.order_status,o.payment_time,o.send_time,o.create_time,o.update_time,o.total_price,o.send_status,a.receiver_name,a.receiver_phone,a.receiver_province,a.receiver_city,a.receiver_district,a.receiver_address,a.receiver_areaCode,a.postCode from order_info o,address a where o.address_id = a.address_id order by o.create_time desc`
+    const sql = `select o.order_id, o.user_id,o.address_id,o.payment,o.payment_type,o.order_status,o.payment_time,o.send_time,o.create_time,o.update_time,o.total_price,o.send_status,a.receiver_name,a.receiver_phone,a.receiver_province,a.receiver_city,a.receiver_district,a.receiver_address,a.receiver_areaCode,a.postCode from order_info o,address a where o.address_id = a.address_id order by CAST(o.create_time AS DATETIME) desc`
     connection.query(sql, (err, res) => {
       if (!err) {
         this.getAllOrders(res, connection, success)
@@ -205,7 +207,7 @@ module.exports = {
   // 查看所有退货订单
   getAllReturnOrder(success, fail) {
     const connection = DBconn.getConn()
-    const sql = `select o.order_id, o.user_id,o.address_id,o.payment,o.payment_type,o.order_status,o.payment_time,o.send_time,o.create_time,o.update_time,o.total_price,o.send_status,a.receiver_name,a.receiver_phone,a.receiver_province,a.receiver_city,a.receiver_district,a.receiver_address,a.receiver_areaCode,a.postCode,o.return_info,o.return_status from order_info o,address a where o.address_id = a.address_id and o.order_status='-1' order by o.create_time desc`
+    const sql = `select o.order_id, o.user_id,o.address_id,o.payment,o.payment_type,o.order_status,o.payment_time,o.send_time,o.create_time,o.update_time,o.total_price,o.send_status,a.receiver_name,a.receiver_phone,a.receiver_province,a.receiver_city,a.receiver_district,a.receiver_address,a.receiver_areaCode,a.postCode,o.return_info,o.return_status from order_info o,address a where o.address_id = a.address_id and o.order_status='-1' order by CAST(o.create_time AS DATETIME) desc`
     connection.query(sql, (err, res) => {
       if (!err) {
         this.getAllOrders(res, connection, success)
