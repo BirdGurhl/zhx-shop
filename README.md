@@ -8,7 +8,8 @@
 ```
 ### 项目运行环境
 ```
-​ Node.js + MySQL
+​ Node (v14.18.3) + MySQL(5.6)
+
  SQL脚本文件： zhx-serve/MySQL/db.sql
  数据库配置文件：zhx-server/dao/DBconn.js , 默认配置： 
  const dbConfig = {
@@ -26,7 +27,7 @@
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### 项目运行
 ```
  后端：npm start
 ```
